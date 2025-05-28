@@ -5,7 +5,7 @@ const handler = new Sequelize('data', 'root', '', {
   host: 'localhost'
 });
 
-// Kategória modell
+
 exports.categories = handler.define('category', {  // modellnév: 'category'
   id: {
     type: DataTypes.INTEGER,
@@ -19,10 +19,10 @@ exports.categories = handler.define('category', {  // modellnév: 'category'
     unique: true
   }
 }, {
-  tableName: 'categorytable'  // explicit táblanév
+  tableName: 'categorytable'
 });
 
-// Recept modell
+
 exports.recipes = handler.define('recipe', {  // modellnév: 'recipe'
   id: {
     type: DataTypes.INTEGER,
@@ -42,15 +42,14 @@ exports.recipes = handler.define('recipe', {  // modellnév: 'recipe'
     type: DataTypes.INTEGER,
     allowNull: true,
     references: {
-      model: 'categorytable',  // explicit táblanév
+      model: 'categorytable',
       key: 'id'
     }
   }
 }, {
-  tableName: 'recipetable'  // explicit táblanév
+  tableName: 'recipetable'
 });
 
-// Felhasználó modell
 exports.users = handler.define('usertable', {
   id: {
     type: DataTypes.INTEGER,
@@ -68,7 +67,7 @@ exports.users = handler.define('usertable', {
   }
 });
 
-// Kapcsolatok
+
 exports.categories.hasMany(exports.recipes, { foreignKey: 'categoryId' });
 exports.recipes.belongsTo(exports.categories, { 
   foreignKey: 'categoryId',
