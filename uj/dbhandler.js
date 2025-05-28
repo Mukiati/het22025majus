@@ -6,7 +6,7 @@ const handler = new Sequelize('data', 'root', '', {
 });
 
 
-exports.categories = handler.define('category', {  // modellnév: 'category'
+exports.categories = handler.define('category', {  
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -23,7 +23,7 @@ exports.categories = handler.define('category', {  // modellnév: 'category'
 });
 
 
-exports.recipes = handler.define('recipe', {  // modellnév: 'recipe'
+exports.recipes = handler.define('recipe', { 
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
