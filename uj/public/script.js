@@ -14,7 +14,6 @@ function create() {
     createreq.send(JSON.stringify({
         name: nameinput,
         ingredients: ingredientinput,
-        //categoryId
     }));
 
     createreq.onreadystatechange = () => {
@@ -35,7 +34,6 @@ function Load() {
         if (loadreq.readyState === 4 && loadreq.status === 200) {
             const result = JSON.parse(loadreq.response);
             const osszesDiv = document.getElementById('osszes');
-            // Csak a nevek és gombok maradnak
             osszesDiv.innerHTML = '<p>Összes recept:</p><button onclick="Load()">Frissítés</button>';
 
             result.forEach(item => {
@@ -45,7 +43,6 @@ function Load() {
 
                 nameParagraph.innerText = item.name;
                 detailsButton.innerText = "Részletek";
-                // Gomb eseménykezelője átadja az ID-t
                 detailsButton.onclick = () => showRecipeDetails(item.id);
 
 
@@ -157,8 +154,8 @@ function edit() {
 
 
 function reg() {
-    const username = document.getElementById('regname').value; // Regisztrációs név mező
-    const password = document.getElementById('rpass').value; // Regisztrációs jelszó mező
+    const username = document.getElementById('regname').value;
+    const password = document.getElementById('rpass').value;
     
     const regReq = new XMLHttpRequest();
     regReq.open("POST", "/users/register");
@@ -245,7 +242,7 @@ function addIngredientFromForm() {
         if (req.readyState === 4) {
             const res = JSON.parse(req.responseText);
             alert(res.message);
-            document.getElementById("newIngredient").value = ""; // mező törlése
+            document.getElementById("newIngredient").value = "";
         }
     };
 }
@@ -282,7 +279,6 @@ async function deleteIngredientFromRecipe() {
         .map(i => i.trim())
         .filter(i => i.toLowerCase() !== ingredientToDelete);
 
-    // Visszaalakítjuk a szöveggé
     const updatedIngredients = ingredients.join(', ');
 
     const updateRes = await fetch(`/recipes/${recipeId}`, {
@@ -382,9 +378,6 @@ function loadPopularCategories() {
     };
 }
 
-
-
-// Kategóriák betöltése és megjelenítése
 function loadCategories() {
     const req = new XMLHttpRequest();
     req.open("GET", "/categories");
@@ -403,8 +396,6 @@ function loadCategories() {
                     list.appendChild(li);
                 });
                 container.appendChild(list);
-
-                // kategória legördülő frissítése
                 const select = document.getElementById("rcategory");
                 if (select) {
                     select.innerHTML = '';
@@ -422,7 +413,6 @@ function loadCategories() {
     };
 }
 
-// Kategória létrehozása
 function createCategory() {
     const name = document.getElementById("categoryName").value;
     if (!name) {
@@ -445,7 +435,6 @@ function createCategory() {
     };
 }
 
-// Kategória hozzárendelése egy recepthez
 function assignCategoryToRecipe() {
     const recipeId = document.getElementById("assignRecipeId").value;
     const categoryId = document.getElementById("assignCategoryId").value;
@@ -468,7 +457,7 @@ function assignCategoryToRecipe() {
     };
 }
 
-// Oldal betöltésekor automatikusan töltsük be a kategóriákat
+
 window.onload = () => {
     loadCategories();
 };
