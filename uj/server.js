@@ -33,16 +33,15 @@ server.post('/auth/login', async (req, res) => {
         }
 
         
-        if (user.password !== password) {
-            return res.status(401).json({ message: "Hibás adatok!" });
-       
+        if (user.password != password) {
+            return res.status(401).json({ message: "Hibás adatok!" })}
+            
+            const token = jwt.sign(
+                { userId: user.id },
+                'titkos_kulcs',
+                { expiresIn: '1h' }
+            );
         
-        const token = jwt.sign(
-            { userId: user.id },
-            'titkos_kulcs',
-            { expiresIn: '1h' }
-        );
-
         res.json({ message: "Sikeres bejelentkezés!", token });
     } catch (error) {
         console.error("Hiba a bejelentkezés során:", error)

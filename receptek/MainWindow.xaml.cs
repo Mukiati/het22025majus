@@ -83,10 +83,8 @@ namespace receptek
                 return;
             }
 
-            var selectedCategory = (CategoryData)categoryComboBox.SelectedItem;
-            int? categoryId = selectedCategory?.id;
 
-            bool success = await connection.CreateRecipe(recipeNameInput.Text, recipeIngredientsInput.Text, categoryId);
+            bool success = await connection.CreateRecipe(recipeNameInput.Text, recipeIngredientsInput.Text);
             if (success)
             {
                 MessageBox.Show("Recept sikeresen mentve!");
@@ -147,7 +145,7 @@ namespace receptek
             }
         }
 
-        private async void ShowDetails_Click(object sender, RoutedEventArgs e)
+        private async void ShowDetails_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
             int recipeId = (int)button.Tag;
@@ -165,7 +163,7 @@ namespace receptek
             }
         }
 
-        private async void DeleteRecipe_Click(object sender, RoutedEventArgs e)
+        private async void DeleteRecipe_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
             int recipeId = (int)button.Tag;
@@ -178,7 +176,7 @@ namespace receptek
             }
         }
 
-        private async void EditRecipeClick(object sender, RoutedEventArgs e)
+        private async void EditRecipeClick(object sender, EventArgs e)
         {
             if (!int.TryParse(editIdInput.Text, out int recipeId))
             {
@@ -209,7 +207,7 @@ namespace receptek
             }
         }
 
-        private async void SearchRecipeClick(object sender, RoutedEventArgs e)
+        private async void SearchRecipeClick(object sender, EventArgs e)
         {
             string query = searchInput.Text;
             if (string.IsNullOrWhiteSpace(query))
@@ -222,7 +220,7 @@ namespace receptek
             DisplaySearchResults(results);
         }
 
-        private async void SearchByIngredientClick(object sender, RoutedEventArgs e)
+        private async void SearchByIngredientClick(object sender, EventArgs e)
         {
             string query = searchInput.Text;
             if (string.IsNullOrWhiteSpace(query))
@@ -235,7 +233,7 @@ namespace receptek
             DisplaySearchResults(results);
         }
 
-        private async void SearchByCategoryClick(object sender, RoutedEventArgs e)
+        private async void SearchByCategoryClick(object sender, EventArgs e)
         {
             var selectedCategory = (CategoryData)categoryFilterComboBox.SelectedItem;
             if (selectedCategory == null)
@@ -297,7 +295,7 @@ namespace receptek
             }
         }
 
-        public async void AddIngredientToRecipe_Click(object sender, RoutedEventArgs e)
+        public async void AddIngredientToRecipe_Click(object sender, EventArgs e)
         {
             if (!int.TryParse(ingredientAddRecipeId.Text, out int recipeId) || string.IsNullOrWhiteSpace(ingredientToAdd.Text))
             {
@@ -335,7 +333,7 @@ namespace receptek
             }
         }
 
-        public async void ViewIngredients_Click(object sender, RoutedEventArgs e)
+        public async void ViewIngredients_Click(object sender, EventArgs e)
         {
             if (!int.TryParse(ingredientViewRecipeId.Text, out int recipeId))
             {
@@ -373,7 +371,7 @@ namespace receptek
             }
         }
 
-        public async void DeleteIngredientFromRecipe_Click(object sender, RoutedEventArgs e)
+        public async void DeleteIngredientFromRecipe_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
             var tag = (Tuple<int, string>)button.Tag;
@@ -410,7 +408,7 @@ namespace receptek
             }
         }
 
-        private async void CreateCategoryClick(object sender, RoutedEventArgs e)
+        private async void CreateCategoryClick(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(newCategoryName.Text))
             {
@@ -427,7 +425,7 @@ namespace receptek
             }
         }
 
-        private async void LoadCategoriesClick(object sender, RoutedEventArgs e)
+        private async void LoadCategoriesClick(object sender, EventArgs e)
         {
             await LoadCategories();
         }
@@ -438,13 +436,12 @@ namespace receptek
             if (categories != null)
             {
                 categoriesListBox.ItemsSource = categories;
-                categoryComboBox.ItemsSource = categories;
                 categoryFilterComboBox.ItemsSource = categories;
                 assignCategoryComboBox.ItemsSource = categories;
             }
         }
 
-        private async void AssignCategoryClick(object sender, RoutedEventArgs e)
+        private async void AssignCategoryClick(object sender, EventArgs e)
         {
             if (!int.TryParse(recipeIdForCategory.Text, out int recipeId))
             {
@@ -468,7 +465,7 @@ namespace receptek
             }
         }
 
-        private async void LoadPopularCategoriesClick(object sender, RoutedEventArgs e)
+        private async void LoadPopularCategoriesClick(object sender, EventArgs e)
         {
             var popularCategories = await connection.GetPopularCategories();
             if (popularCategories != null)
