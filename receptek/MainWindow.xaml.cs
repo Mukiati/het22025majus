@@ -33,7 +33,6 @@ namespace receptek
             await LoadCategories();
         }
 
-        // Bejelentkezés
         async void LoginClick(object s, EventArgs e)
         {
             bool success = await connection.Login(nameinput.Text, passwordinput.Password);
@@ -43,7 +42,6 @@ namespace receptek
             }
         }
 
-        // Regisztráció
         async void RegClick(object s, EventArgs e)
         {
             bool success = await connection.Reg(nameinput.Text, passwordinput.Password);
@@ -53,7 +51,6 @@ namespace receptek
             }
         }
 
-        // Profil mutatása
         async void ShowProfileClick(object s, EventArgs e)
         {
             if (string.IsNullOrEmpty(Token.token))
@@ -78,7 +75,6 @@ namespace receptek
             }
         }
 
-        // Recept létrehozása
         async void CreateRecipeClick(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(recipeNameInput.Text) || string.IsNullOrEmpty(recipeIngredientsInput.Text))
@@ -151,7 +147,6 @@ namespace receptek
             }
         }
 
-        // Részletek gomb
         private async void ShowDetails_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
@@ -183,7 +178,6 @@ namespace receptek
             }
         }
 
-        // Recept szerkesztése
         private async void EditRecipeClick(object sender, RoutedEventArgs e)
         {
             if (!int.TryParse(editIdInput.Text, out int recipeId))
@@ -215,7 +209,6 @@ namespace receptek
             }
         }
 
-        // Keresés név alapján
         private async void SearchRecipeClick(object sender, RoutedEventArgs e)
         {
             string query = searchInput.Text;
@@ -229,7 +222,6 @@ namespace receptek
             DisplaySearchResults(results);
         }
 
-        // Keresés hozzávaló alapján
         private async void SearchByIngredientClick(object sender, RoutedEventArgs e)
         {
             string query = searchInput.Text;
@@ -243,7 +235,6 @@ namespace receptek
             DisplaySearchResults(results);
         }
 
-        // Keresés kategória alapján
         private async void SearchByCategoryClick(object sender, RoutedEventArgs e)
         {
             var selectedCategory = (CategoryData)categoryFilterComboBox.SelectedItem;
@@ -306,7 +297,6 @@ namespace receptek
             }
         }
 
-        // Hozzávaló hozzáadása
         public async void AddIngredientToRecipe_Click(object sender, RoutedEventArgs e)
         {
             if (!int.TryParse(ingredientAddRecipeId.Text, out int recipeId) || string.IsNullOrWhiteSpace(ingredientToAdd.Text))
@@ -345,7 +335,6 @@ namespace receptek
             }
         }
 
-        // Hozzávalók megtekintése
         public async void ViewIngredients_Click(object sender, RoutedEventArgs e)
         {
             if (!int.TryParse(ingredientViewRecipeId.Text, out int recipeId))
@@ -384,7 +373,6 @@ namespace receptek
             }
         }
 
-        // Hozzávaló törlése
         public async void DeleteIngredientFromRecipe_Click(object sender, RoutedEventArgs e)
         {
             var button = (Button)sender;
@@ -422,7 +410,6 @@ namespace receptek
             }
         }
 
-        // Kategória létrehozása
         private async void CreateCategoryClick(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(newCategoryName.Text))
@@ -440,7 +427,6 @@ namespace receptek
             }
         }
 
-        // Kategóriák betöltése
         private async void LoadCategoriesClick(object sender, RoutedEventArgs e)
         {
             await LoadCategories();
@@ -458,7 +444,6 @@ namespace receptek
             }
         }
 
-        // Kategória hozzárendelése recepthez
         private async void AssignCategoryClick(object sender, RoutedEventArgs e)
         {
             if (!int.TryParse(recipeIdForCategory.Text, out int recipeId))
@@ -483,7 +468,6 @@ namespace receptek
             }
         }
 
-        // Legnépszerűbb kategóriák betöltése
         private async void LoadPopularCategoriesClick(object sender, RoutedEventArgs e)
         {
             var popularCategories = await connection.GetPopularCategories();

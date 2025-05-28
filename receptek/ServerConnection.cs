@@ -18,7 +18,6 @@ namespace receptek
             this.serverUrl = serverUrl;
         }
 
-        // Bejelentkezés
         public async Task<bool> Login(string user, string pass)
         {
             string url = serverUrl + "/auth/login";
@@ -43,7 +42,6 @@ namespace receptek
             }
         }
 
-        // Regisztráció
         public async Task<bool> Reg(string user, string pass)
         {
             string url = serverUrl + "/users/register";
@@ -64,7 +62,6 @@ namespace receptek
             }
         }
 
-        // Profil adatok lekérése
         public async Task<JsonData> GetProfile()
         {
             string url = serverUrl + "/users/me";
@@ -86,7 +83,6 @@ namespace receptek
             }
         }
 
-        // Recept létrehozása
         public async Task<bool> CreateRecipe(string name, string ingredients, int? categoryId = null)
         {
             string url = serverUrl + "/recipes";
@@ -186,7 +182,6 @@ namespace receptek
             }
         }
 
-        // Új metódusok a kiegészítéshez
 
         public async Task<bool> CreateCategory(string name)
         {
