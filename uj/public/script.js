@@ -363,7 +363,6 @@ function loadPopularCategories() {
                 } else {
                     const list = document.createElement('ul');
                     categories.forEach(cat => {
-                        // Itt a backend válaszában category a kategória neve, count a db
                         liText = `${cat.category.name} (${cat.count} recept)`;
                         const li = document.createElement('li');
                         li.innerText = liText;
