@@ -21,37 +21,36 @@ server.post('/auth/login', async (req, res) => {
     try {
         const { username, password } = req.body;
 
-        // Hibakezelés, ha üresek a mezők
+        
         if (!username || !password) {
             return res.status(400).json({ message: "Felhasználónév és jelszó kötelező!" });
         }
 
-        // Adatbázis lekérdezés
+        
         const user = await dbhandler.users.findOne({ where: { username } });
         if (!user) {
             return res.status(401).json({ message: "Hibás adatok!" });
         }
 
-        // Jelszó ellenőrzése (nyers szövegként)
+        
         if (user.password !== password) {
             return res.status(401).json({ message: "Hibás adatok!" });
-        }
-
-        // JWT generálása
+       
+        
         const token = jwt.sign(
             { userId: user.id },
-            'titkos_kulcs', // Használj erős titkos kulcsot élesben!
+            'titkos_kulcs',
             { expiresIn: '1h' }
         );
 
         res.json({ message: "Sikeres bejelentkezés!", token });
     } catch (error) {
-        console.error("Hiba a bejelentkezés során:", error); // Hibanaplózás
+        console.error("Hiba a bejelentkezés során:", error)
         res.status(500).json({ message: "Szerverhiba!" });
     }
 });
 
-// Middleware a JWT ellenőrzéséhez
+
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
@@ -69,11 +68,11 @@ function authenticateToken(req, res, next) {
     });
 }
 
-// Saját profil lekérése
+
 server.get('/users/me', authenticateToken, async (req, res) => {
     try {
         const user = await dbhandler.users.findByPk(req.user.userId, {
-            attributes: { exclude: ['password'] } // Jelszó elrejtése
+            attributes: { exclude: ['password'] } 
         });
         
         if (!user) {
@@ -245,18 +244,18 @@ server.post('/users/register', async (req, res) => {
     try {
         const { username, password } = req.body;
         
-        // Ellenőrizzük, hogy minden mező kitöltve van-e
+         
         if (!username || !password) {
             return res.status(400).json({ message: "Felhasználónév és jelszó kötelező!" });
         }
         
-        // Ellenőrizzük, hogy a felhasználónév már foglalt-e
+        
         const existingUser = await dbhandler.users.findOne({ where: { username } });
         if (existingUser) {
             return res.status(409).json({ message: "Ez a felhasználónév már foglalt!" });
         }
         
-        // Új felhasználó létrehozása
+        
         const newUser = await dbhandler.users.create({ username, password });
         res.status(201).json({ message: "Sikeres regisztráció!", userId: newUser.id });
     } catch (error) {
