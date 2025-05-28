@@ -12,7 +12,6 @@ body {
     padding: 20px;
 }
 
-/* Containerek és elrendezés */
 h1 {
     color: #2c3e50;
     margin-bottom: 20px;
@@ -33,7 +32,6 @@ div {
     margin-bottom: 20px;
 }
 
-/* Input mezők */
 input[type="text"],
 input[type="password"],
 input[type="number"] {
@@ -54,7 +52,6 @@ input[type="number"]:focus {
     box-shadow: 0 0 6px #2980b9;
 }
 
-/* Gombok */
 button {
     background-color: #2980b9;
     color: white;
@@ -71,7 +68,6 @@ button:hover {
     background-color: #1c5980;
 }
 
-/* Keresési eredmények és részletek */
 #searchResults div,
 #categoryResults div,
 #ingredientResults div,
@@ -83,7 +79,6 @@ button:hover {
     border-radius: 5px;
 }
 
-/* Profil rész */
 #profileDetails {
     margin-top: 10px;
     background: #ecf0f1;
@@ -91,7 +86,6 @@ button:hover {
     border-radius: 6px;
 }
 
-/* Recept részletek */
 #recipeDetails {
     background: #ecf0f1;
     padding: 15px;
@@ -99,7 +93,6 @@ button:hover {
     margin-top: 15px;
 }
 
-/* Reszponzív design */
 @media (min-width: 768px) {
     body {
         max-width: 700px;
