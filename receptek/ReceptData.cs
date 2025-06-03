@@ -12,6 +12,6 @@ namespace receptek
         public string name { get; set; }
         public string ingredients { get; set; }
 
-        public CategoryData category { get; set; }  // fontos: így lesz benne a név is, ha include van
+        public CategoryData category { get; set; }  
     }
 }

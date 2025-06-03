@@ -146,6 +146,9 @@ namespace receptek
             }
         }
 
+
+        
+
         private async void ShowDetails_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
@@ -158,10 +161,16 @@ namespace receptek
                 var recipe = JsonConvert.DeserializeObject<ReceptData>(await response.Content.ReadAsStringAsync());
                 MessageBox.Show($"ID: {recipe.id}\nNév: {recipe.name}\nÖsszetevők: {recipe.ingredients}");
 
-                // 🔧 Automatikus kitöltés ide:
+                ingredientAddRecipeId.IsEnabled = false;
+                ingredientViewRecipeId.IsEnabled = false;
+                recipeIdForCategory.IsEnabled = false;
+                editIdInput.IsEnabled = false;
+
                 ingredientAddRecipeId.Text = recipe.id.ToString();
                 ingredientViewRecipeId.Text = recipe.id.ToString();
-                recipeIdForCategory.Text = recipe.id.ToString(); 
+                recipeIdForCategory.Text = recipe.id.ToString();
+                editIdInput.Text = recipe.id.ToString();
+
             }
             catch (Exception ex)
             {

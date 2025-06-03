@@ -230,7 +230,7 @@ namespace receptek
             string url = $"{serverUrl}/recipes/{recipeId}/category";
             try
             {
-                // <- EZT JAVÍTOTTUK vissza categoryId-re!
+              
                 var jsonInfo = new { categoryId = categoryId };
                 string json = JsonConvert.SerializeObject(jsonInfo);
                 HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
