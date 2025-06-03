@@ -105,7 +105,7 @@ namespace receptek
                 return false;
             }
         }
-
+        public string hiba = "";
         public async Task<List<ReceptData>> GetAllRecipes()
         {
             string url = serverUrl + "/recipes";
@@ -119,6 +119,8 @@ namespace receptek
             catch (Exception e)
             {
                 MessageBox.Show($"Hiba a receptek betöltésekor: {e.Message}");
+                hiba = e.Message;
+
                 return null;
             }
         }
@@ -228,7 +230,8 @@ namespace receptek
             string url = $"{serverUrl}/recipes/{recipeId}/category";
             try
             {
-                var jsonInfo = new { categoryId };
+                // <- EZT JAVÍTOTTUK vissza categoryId-re!
+                var jsonInfo = new { categoryId = categoryId };
                 string json = JsonConvert.SerializeObject(jsonInfo);
                 HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -236,7 +239,14 @@ namespace receptek
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Token.token);
 
                 HttpResponseMessage response = await client.PutAsync(url, content);
-                response.EnsureSuccessStatusCode();
+                string responseContent = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    MessageBox.Show($"Sikertelen hozzárendelés: {(int)response.StatusCode} - {response.ReasonPhrase}\nRészletek: {responseContent}");
+                    return false;
+                }
+
                 return true;
             }
             catch (Exception e)
@@ -246,21 +256,18 @@ namespace receptek
             }
         }
 
-        public async Task<List<ReceptData>> SearchRecipesByCategory(int categoryId)
+
+        public async Task<List<ReceptData>> SearchRecipesByCategory(string categoryName)
         {
-            string url = $"{serverUrl}/recipes?category={categoryId}";
-            try
+            string url = $"{serverUrl}/recipes?category={Uri.EscapeDataString(categoryName)}";
+            HttpResponseMessage response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
             {
-                HttpResponseMessage response = await client.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-                string result = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<ReceptData>>(result);
+                string content = await response.Content.ReadAsStringAsync();
+                var recipes = JsonConvert.DeserializeObject<List<ReceptData>>(content);
+                return recipes;
             }
-            catch (Exception e)
-            {
-                MessageBox.Show($"Hiba a kategória alapú kereséskor: {e.Message}");
-                return null;
-            }
+            return new List<ReceptData>();
         }
 
         public async Task<List<ReceptData>> SearchRecipesByIngredient(string ingredient)

@@ -102,6 +102,7 @@ namespace receptek
         private async Task LoadRecipes()
         {
             var recipes = await connection.GetAllRecipes();
+            nameinput.Text = connection.hiba;
             if (recipes != null)
             {
                 recipesWrapPanel.Children.Clear();
@@ -156,6 +157,11 @@ namespace receptek
                 response.EnsureSuccessStatusCode();
                 var recipe = JsonConvert.DeserializeObject<ReceptData>(await response.Content.ReadAsStringAsync());
                 MessageBox.Show($"ID: {recipe.id}\nNév: {recipe.name}\nÖsszetevők: {recipe.ingredients}");
+
+                // 🔧 Automatikus kitöltés ide:
+                ingredientAddRecipeId.Text = recipe.id.ToString();
+                ingredientViewRecipeId.Text = recipe.id.ToString();
+                recipeIdForCategory.Text = recipe.id.ToString(); 
             }
             catch (Exception ex)
             {
@@ -242,7 +248,7 @@ namespace receptek
                 return;
             }
 
-            var results = await connection.SearchRecipesByCategory(selectedCategory.id);
+            var results = await connection.SearchRecipesByCategory(selectedCategory.name);
             DisplaySearchResults(results);
         }
 
@@ -441,7 +447,7 @@ namespace receptek
             }
         }
 
-        private async void AssignCategoryClick(object sender, EventArgs e)
+       async void  AssignCategoryClick(object sender, EventArgs e)
         {
             if (!int.TryParse(recipeIdForCategory.Text, out int recipeId))
             {
@@ -464,6 +470,9 @@ namespace receptek
                 await LoadRecipes();
             }
         }
+
+
+
 
         private async void LoadPopularCategoriesClick(object sender, EventArgs e)
         {

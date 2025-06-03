@@ -8,9 +8,10 @@ namespace receptek
 {
     public class ReceptData
     {
-        public int id { get; set; }       
+        public int id { get; set; }
         public string name { get; set; }
         public string ingredients { get; set; }
-        public int categoryid { get; set; }
+
+        public CategoryData category { get; set; }  // fontos: így lesz benne a név is, ha include van
     }
 }
